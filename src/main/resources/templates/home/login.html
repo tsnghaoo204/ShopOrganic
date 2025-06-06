@@ -2,67 +2,97 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="description" content="Ogani Template">
-	<meta name="keywords" content="Ogani, unica, creative, html">
+	<meta name="description" content="Login Page">
+	<meta name="keywords" content="Login, HTML, CSS">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Login</title>
 
+	<!-- Fonts & Icons -->
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="/css/home/login.css">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+	<!-- Custom CSS -->
+	<style>
+		body {
+			background-image: url(img/oganic.jpg);
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: 'Lato', sans-serif;
+		}
+		.login-card {
+			background-color: rgba(255, 255, 255, 0.9);
+			border-radius: 16px;
+			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+			padding: 30px;
+			width: 100%;
+			max-width: 400px;
+		}
+		.login-card .form-control {
+			border-radius: 8px;
+		}
+		.login-card .btn-primary {
+			border-radius: 8px;
+		}
+		.toggle-password {
+			cursor: pointer;
+			position: absolute;
+			right: 15px;
+			top: 12px;
+			color: #888;
+		}
+	</style>
 </head>
-<body class="img js-fullheight" style="background-image: url(img/oganic.jpg);">
-<section class="ftco-section">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-md-6 text-center mb-5">
-				<h2 class="heading-section">Login now</h2>
-			</div>
+<body>
+
+<div class="login-card">
+	<h3 class="text-center mb-4">Login to Your Account</h3>
+
+	<!-- Error Message -->
+	<div th:if="${error}" class="alert alert-danger text-center">
+		<p th:text="${error}"></p>
+	</div>
+
+	<!-- Login Form -->
+	<form th:action="@{/login}" method="post" class="signin-form">
+		<div class="form-group">
+			<input type="text" name="username" class="form-control" placeholder="Username" required>
 		</div>
-
-		<!-- Thông báo lỗi -->
-		<div class="row justify-content-center">
-			<div class="col-md-6 col-lg-4">
-				<div class="login-wrap p-0">
-					<h3 class="mb-4 text-center">Have an account?</h3>
-					<div th:if="${error}" class="alert alert-danger text-center">
-						<p th:text="${error}"></p>
-					</div>
-
-					<!-- Form đăng nhập -->
-					<form th:action="@{/login}" method="post" class="signin-form">
-						<div class="form-group">
-							<input type="text" name="username" class="form-control" placeholder="Username" required>
-						</div>
-						<div class="form-group">
-							<input id="password-field" type="password" name="password" class="form-control"
-								   placeholder="Password" required>
-							<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-						</div>
-						<div class="form-group">
-							<button type="submit" class="form-control btn btn-primary submit px-3">Sign In</button>
-						</div>
-						<div class="form-group d-md-flex">
-							<div class="w-50">
-								<label class="checkbox-wrap checkbox-primary">
-									Remember Me
-									<input type="checkbox">
-									<span class="checkmark"></span>
-								</label>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
+		<div class="form-group position-relative">
+			<input id="password-field" type="password" name="password" class="form-control" placeholder="Password" required>
+			<span toggle="#password-field" class="fa fa-fw fa-eye toggle-password"></span>
 		</div>
+		<div class="form-group">
+			<button type="submit" class="btn btn-primary btn-block">Sign In</button>
+		</div>
+		<div class="form-group text-center">
+			<label class="checkbox-wrap checkbox-primary">
+				<input type="checkbox"> Remember Me
+			</label>
+		</div>
+	</form>
+</div>
 
-</section>
-
-<!-- Script -->
+<!-- Scripts -->
 <script src="/js/jquery.min.js"></script>
 <script src="/js/popper.js"></script>
 <script src="/js/bootstrap.min.js"></script>
-<script src="/js/main.js"></script>
+<script>
+	// Toggle password visibility
+	$(document).on('click', '.toggle-password', function () {
+		let input = $("#password-field");
+		let type = input.attr("type") === "password" ? "text" : "password";
+		input.attr("type", type);
+		$(this).toggleClass("fa-eye fa-eye-slash");
+	});
+</script>
 </body>
 </html>
